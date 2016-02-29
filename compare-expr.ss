@@ -74,3 +74,19 @@
 		  (compare-lists x y)))
 	  (compare-constants x y))
       (compare-constants x y)))
+
+(define (eval-expr x b)
+  (if b
+      (cons 'let (cons '((TCP #t)) (cons x '())))
+      (cons 'let (cons '((TCP #f)) (cons x '())))))
+  
+
+
+(define (test-compare-expr x y)
+  (let ((diff (compare-expr x y)))
+    (if (and (equal? (eval (eval-expr diff #t)) (eval x))
+	     (equal? (eval (eval-expr diff #f)) (eval y)))
+	#t
+	#f)))
+
+
